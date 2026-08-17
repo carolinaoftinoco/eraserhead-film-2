@@ -1,10 +1,11 @@
 const menu = document.getElementById("menu");
+const blocos = document.querySelectorAll(".aparecer");
 const video = document.querySelector(".capa-video");
 const capa = document.querySelector(".capa");
+const capaPainel = document.querySelector(".capa-painel");
 const capaConteudo = document.querySelector(".capa-conteudo");
 const capaBarra = document.querySelector(".capa-barra");
 const capaSeta = document.querySelector(".capa-seta");
-const capaImagem = document.querySelector(".capa-imagem");
 
 if (menu) {
     window.addEventListener("scroll", function () {
@@ -16,42 +17,103 @@ if (menu) {
     });
 }
 
-if (window.gsap && window.ScrollTrigger && video && capa && capaConteudo) {
+if (blocos.length) {
+    const observador = new IntersectionObserver(function (entradas) {
+        entradas.forEach(function (entrada) {
+            if (entrada.isIntersecting) {
+                entrada.target.classList.add("visivel");
+            }
+        });
+    });
+
+    blocos.forEach(function (bloco) {
+        observador.observe(bloco);
+    });
+}
+
+if (window.gsap && window.ScrollTrigger && video && capa && capaPainel && capaConteudo) {
     gsap.registerPlugin(ScrollTrigger);
+
+    const DISTANCIA_PIN = 2500;
+    const MARGEM_FINAL = 0.05;
 
     video.muted = true;
     video.playsInline = true;
     video.setAttribute("playsinline", "true");
+    video.removeAttribute("autoplay");
+    video.removeAttribute("loop");
+    video.loop = false;
+    video.pause();
 
-    const tocarVideo = function () {
-        const playPromise = video.play();
+    let duracao = 0;
+    let liberado = false;
+    
+    video.addEventListener("play", function () {
+        if (!liberado) {
+            video.pause();
+        }
+    });
 
-        if (playPromise && typeof playPromise.catch === "function") {
-            playPromise.catch(function () {
-            });
+    const guardarDuracao = function () {
+        if (video.duration && Number.isFinite(video.duration)) {
+            duracao = video.duration;
+            ScrollTrigger.refresh();
         }
     };
 
-    if (video.readyState >= 2) {
-        tocarVideo();
-    } 
-    else {
-        video.addEventListener("loadeddata", tocarVideo, { 
-            once: true 
-        });
+    if (video.readyState >= 1) {
+        guardarDuracao();
+    } else {
+        video.addEventListener("loadedmetadata", guardarDuracao, { once: true });
     }
 
-    gsap.timeline ({
+    const prepararVideo = function () {
+        liberado = true;
+
+        const playPromise = video.play();
+
+        const parar = function () {
+            liberado = false;
+            video.pause();
+
+            aplicarTempo();
+        };
+
+        if (playPromise && typeof playPromise.then === "function") {
+            playPromise.then(parar).catch(function () {
+                liberado = false;
+            });
+        } else {
+            parar();
+        }
+    };
+
+    window.addEventListener("pointerdown", prepararVideo, { once: true });
+    window.addEventListener("touchstart", prepararVideo, { once: true });
+
+    const estado = { tempo: 0 };
+
+    const aplicarTempo = function () {
+        if (!duracao || video.readyState < 1) {
+            return;
+        }
+
+        if (Math.abs(video.currentTime - estado.tempo) > 0.01) {
+            video.currentTime = estado.tempo;
+        }
+    };
+
+    gsap.timeline({
         scrollTrigger: {
             trigger: capa,
             start: "top top",
-            end: "+=2500",
+            end: "+=" + DISTANCIA_PIN,
             scrub: 1,
             pin: true,
+            invalidateOnRefresh: true,
         }
     })
-
-        .to(video, { opacity: 1, ease: "none" }, 0)
+        .to(video, { opacity: 1, duration: 0.15, ease: "none" }, 0)
         .to(".capa-conteudo, .capa-barra, .capa-seta", {
             opacity: 0,
             y: -40,
@@ -60,33 +122,12 @@ if (window.gsap && window.ScrollTrigger && video && capa && capaConteudo) {
             ease: "none",
         }, 0.02)
 
-    gsap.to (video, {
-        currentTime: function () {
-            if (!video.duration || Number.isNaN(video.duration)) {
-                return 0;
-            }
-            return video.duration;
-        },
-
-        ease: "none",
-        scrollTrigger: {
-            trigger: capa,
-            start: "top top",
-            end: "+=1200",
-            scrub: 1.2,
-            invalidateOnRefresh: true,
-        }
-    });
-
-    if (capaImagem) {
-        gsap.to(capaImagem, {
-            attr: { src: "assets/video-capa.mp4" },
-            scrollTrigger: {
-                trigger: capa,
-                start: "top top",
-                end: "+=800",
-                scrub: 0.5,
-            }
-        });
-    }
+        .fromTo(estado, { tempo: 0 }, {
+            tempo: function () {
+                return Math.max(duracao - MARGEM_FINAL, 0);
+            },
+            duration: 1,
+            ease: "none",
+            onUpdate: aplicarTempo,
+        }, 0);
 }
