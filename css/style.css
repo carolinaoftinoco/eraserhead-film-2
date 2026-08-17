@@ -18,6 +18,7 @@ body {
     left: 0;
     width: 100%;
     z-index: 1000;
+    transition: transform 0.3s ease;
 }
 
 .menu-conteudo {
@@ -36,6 +37,10 @@ body {
 
 }
 
+.menu-rolado {
+    transform: translateY(-100%);
+}
+
 .capa-video {
     position: absolute;
     top: 0;
@@ -45,17 +50,29 @@ body {
     object-fit: cover;
     z-index: 1;
     opacity: 0;
+    filter: brightness(0.7);
 }
 
 .capa {
-    min-height: 100vh;
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.capa-painel {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: relative;
     overflow: hidden;
     padding-top: 40px;
+    z-index: 2;
 }
 
 .capa-conteudo {
@@ -66,6 +83,7 @@ body {
     padding: 16px 0 8px;
     position: relative;
     z-index: 2;
+    will-change: opacity, transform;
 }
 
 .capa-moldura {
@@ -147,13 +165,6 @@ body {
     text-transform: uppercase;
 }
 
-.lista-plataformas {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 8px;
-    color: #c4c0d8;
-}
 
 .texto-plataforma {
     color: #534f97;
@@ -194,6 +205,11 @@ body {
     50% {
         transform: translateY(-8px);
     }
+}
+
+main {
+    position: relative;
+    z-index: 0;
 }
 
 .conteudo-central {
@@ -242,7 +258,7 @@ body {
 }
 
 .card-video-container {
-    aspect-ratio: 16/9;
+    aspect-ratio: 16 / 9;
     width: 100%;
     border-radius: 24px;
     overflow: hidden;
@@ -333,12 +349,8 @@ body {
         text-align: center;
     }
 
-    .lista-plataformas {
-        justify-content: center;
-    }
-
     .card-video-container {
-        aspect-ratio: 4/5;
+        aspect-ratio: 4 / 5;
         background-position: 30% center;
     }
 }
