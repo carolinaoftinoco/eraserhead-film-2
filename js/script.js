@@ -2,7 +2,6 @@ const menu = document.getElementById("menu");
 const blocos = document.querySelectorAll(".aparecer");
 const video = document.querySelector(".capa-video");
 const capa = document.querySelector(".capa");
-const capaPainel = document.querySelector(".capa-painel");
 const capaConteudo = document.querySelector(".capa-conteudo");
 const capaBarra = document.querySelector(".capa-barra");
 const capaSeta = document.querySelector(".capa-seta");
@@ -31,28 +30,22 @@ if (blocos.length) {
     });
 }
 
-if (window.gsap && window.ScrollTrigger && video && capa && capaPainel && capaConteudo) {
+if (window.gsap && window.ScrollTrigger && video && capa && capaConteudo) {
     gsap.registerPlugin(ScrollTrigger);
 
     const DISTANCIA_PIN = 2500;
     const MARGEM_FINAL = 0.05;
+    const ATIVAR_VIDEO_SCROLL = 80;
 
     video.muted = true;
     video.playsInline = true;
     video.setAttribute("playsinline", "true");
-    video.removeAttribute("autoplay");
+    video.setAttribute("autoplay", "true");
     video.removeAttribute("loop");
     video.loop = false;
-    video.pause();
 
     let duracao = 0;
-    let liberado = false;
-    
-    video.addEventListener("play", function () {
-        if (!liberado) {
-            video.pause();
-        }
-    });
+    let videoLiberado = false;
 
     const guardarDuracao = function () {
         if (video.duration && Number.isFinite(video.duration)) {
@@ -67,29 +60,35 @@ if (window.gsap && window.ScrollTrigger && video && capa && capaPainel && capaCo
         video.addEventListener("loadedmetadata", guardarDuracao, { once: true });
     }
 
-    const prepararVideo = function () {
-        liberado = true;
+    const iniciarVideo = function () {
+        if (videoLiberado) {
+            return;
+        }
 
-        const playPromise = video.play();
+        if (window.scrollY > ATIVAR_VIDEO_SCROLL || video.getBoundingClientRect().top < window.innerHeight) {
+            videoLiberado = true;
 
-        const parar = function () {
-            liberado = false;
-            video.pause();
+            const playPromise = video.play();
 
-            aplicarTempo();
-        };
-
-        if (playPromise && typeof playPromise.then === "function") {
-            playPromise.then(parar).catch(function () {
-                liberado = false;
-            });
-        } else {
-            parar();
+            if (playPromise && typeof playPromise.then === "function") {
+                playPromise.catch(function () {
+                    videoLiberado = false;
+                });
+            }
         }
     };
 
-    window.addEventListener("pointerdown", prepararVideo, { once: true });
-    window.addEventListener("touchstart", prepararVideo, { once: true });
+    const pausarVideo = function () {
+        videoLiberado = false;
+
+        if (!video.paused) {
+            video.pause();
+        }
+
+        if (video.duration && Number.isFinite(video.duration)) {
+            video.currentTime = 0;
+        }
+    };
 
     const estado = { tempo: 0 };
 
@@ -103,7 +102,15 @@ if (window.gsap && window.ScrollTrigger && video && capa && capaPainel && capaCo
         }
     };
 
-    gsap.timeline({
+    window.addEventListener("scroll", function () {
+        if (window.scrollY > ATIVAR_VIDEO_SCROLL) {
+            iniciarVideo();
+        } else if (window.scrollY <= ATIVAR_VIDEO_SCROLL && !video.paused) {
+            pausarVideo();
+        }
+    }, { passive: true });
+
+    const timelineVideo = gsap.timeline({
         scrollTrigger: {
             trigger: capa,
             start: "top top",
@@ -111,9 +118,24 @@ if (window.gsap && window.ScrollTrigger && video && capa && capaPainel && capaCo
             scrub: 1,
             pin: true,
             invalidateOnRefresh: true,
+            onUpdate: function () {
+                if (window.scrollY > ATIVAR_VIDEO_SCROLL && video.paused && !videoLiberado) {
+                    iniciarVideo();
+                }
+            },
+            onLeave: pausarVideo,
+            onLeaveBack: pausarVideo,
         }
-    })
-        .to(video, { opacity: 1, duration: 0.15, ease: "none" }, 0)
+    });
+
+    timelineVideo
+        .to(video, {
+            opacity: 1,
+            scale: 1.05,
+            filter: "brightness(0.8) saturate(0.9) contrast(1.15)",
+            duration: 0.15,
+            ease: "none"
+        }, 0)
         .to(".capa-conteudo, .capa-barra, .capa-seta", {
             opacity: 0,
             y: -40,
@@ -121,7 +143,6 @@ if (window.gsap && window.ScrollTrigger && video && capa && capaPainel && capaCo
             duration: 0.1,
             ease: "none",
         }, 0.02)
-
         .fromTo(estado, { tempo: 0 }, {
             tempo: function () {
                 return Math.max(duracao - MARGEM_FINAL, 0);
@@ -130,4 +151,5 @@ if (window.gsap && window.ScrollTrigger && video && capa && capaPainel && capaCo
             ease: "none",
             onUpdate: aplicarTempo,
         }, 0);
+
 }
