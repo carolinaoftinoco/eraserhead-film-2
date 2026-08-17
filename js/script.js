@@ -80,7 +80,7 @@ if (window.gsap && window.ScrollTrigger && video && capa && capaConteudo) {
 
     if (capaImagem) {
         gsap.to(capaImagem, {
-            attr: { src: "assets/eraserhead2.jpg" },
+            attr: { src: "assets/video-capa.mp4" },
             scrollTrigger: {
                 trigger: capa,
                 start: "top top",
