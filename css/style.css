@@ -34,12 +34,12 @@ body {
     text-decoration: none;
     color: #ffffff;
     text-shadow: 0 0 10px #c7c4f3;
-
 }
 
 .menu-rolado {
     transform: translateY(-100%);
 }
+
 
 .capa-video {
     position: absolute;
@@ -50,9 +50,19 @@ body {
     object-fit: cover;
     z-index: 1;
     opacity: 0;
-    transform: scale(1.08);
-    filter: brightness(0.7) saturate(0.8) contrast(1.1);
-    transition: opacity 0.35s ease, filter 0.35s ease;
+    filter: brightness(0.7);
+    transition: opacity 0.9s ease, visibility 0.9s ease;
+}
+
+capa-video.visivel {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+}
+
+.capa-conteudo, .capa-barra, .capa-seta {
+    position: relative;
+    z-index: 3;
 }
 
 .capa {
@@ -60,25 +70,6 @@ body {
     height: 100vh;
     overflow: hidden;
     z-index: 1;
-    background: #0d0d1a;
-}
-
-.capa::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(13, 13, 26, 0.38), rgba(13, 13, 26, 0.7));
-    z-index: 2;
-    pointer-events: none;
-}
-
-.capa::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, transparent 45%, #0D0D1A 100%);
-    z-index: 3;
-    pointer-events: none;
 }
 
 .capa-painel {
@@ -118,6 +109,8 @@ body {
     height: auto;
     display: block;
     border-radius: 12px;
+    opacity: 1;
+    transition: opacity 0.9s ease, transform 0.9s ease;
 }
 
 .botao {
@@ -137,14 +130,14 @@ body {
 }
 
 .botao-primario:hover {
-    box-shadow: 0 0 28px rgba(231, 224, 227, 0.65);
+    box-shadow: 0 0 28px rgba(224, 226, 231, 0.65);
     transform: translateY(-2px);
 }
 
 .capa-barra {
     width: 100%;
-    background-color: #0d0d1a;
-    border-top: 1px solid rgba(255,255,255,0.5);
+    background-color: rgba(13, 13, 26, 0.85);
+    border-top: 1px solid #3d3d543b;
     padding: 20px 0;
     position: relative;
     z-index: 4;
@@ -186,7 +179,6 @@ body {
     text-transform: uppercase;
 }
 
-
 .texto-plataforma {
     color: #534f97;
     font-size: 27px;
@@ -196,8 +188,7 @@ body {
     display: inline-block;
 }
 
-.texto-plataforma:hover,
-.texto-plataforma:focus {
+.texto-plataforma:hover, .texto-plataforma:focus {
     color: #c4c0d8;
     transform: translateY(-1px);
     opacity: 0.9;
@@ -264,6 +255,7 @@ main {
 }
 
 .historia-texto {
+    text-align: justify;
     max-width: 800px;
     margin: 0 auto;
 }
@@ -283,9 +275,7 @@ main {
     width: 100%;
     border-radius: 24px;
     overflow: hidden;
-    background:
-    linear-gradient(to top, rgba(13, 13, 26, 0.9), transparent 70%),
-    url('../assets/card-trailer.jpg') center / cover no-repeat;
+    background: linear-gradient(to top, rgba(13, 13, 26, 0.9), transparent 70%), url('../assets/card-trailer.jpg') center / cover no-repeat;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -299,7 +289,7 @@ main {
     font-size: 48px;
     font-weight: 700;
     text-transform: uppercase;
-    color: #c7c4f3;
+    color: #534F97;
     margin-bottom: 8px;
 }
 
@@ -315,8 +305,8 @@ main {
 }
 
 .rodape {
-    background-color: #0d0d1a;
-    border-top: 1px solid rgba (255, 255, 255, 0.05);
+    background-color: #0D0D1A;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
     padding: 80px 0 40px;
 }
 
@@ -328,13 +318,6 @@ main {
     gap: 24px;
 }
 
-.rodape-logo {
-    font-family: 'Roboto', sans-serif;
-    font-size: 32px;
-    font-weight: 700;
-    color: #ffffff;
-    text-shadow: 0 0 15px rgba (255, 61, 139, 0.3);
-}
 
 .rodape-links {
     display: flex;
@@ -350,7 +333,7 @@ main {
 }
 
 .rodape-links a:hover {
-    color: #534f97
+    color: #534f97;
 }
 
 .rodape-classificacao {

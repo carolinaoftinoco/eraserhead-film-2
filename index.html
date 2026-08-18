@@ -1,88 +1,106 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>ERASERHEAD</title>
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-		<link rel="stylesheet" href="css/style.css"/>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-	</head>
-	<body>
-		<nav class="menu" id="menu">
-			<div class="menu-conteudo">
-				<a href="#" class="menu-logo"></a>
-			</div>
-		</nav>
-		<header class="capa">
-			<video muted playsinline preload="auto" class="capa-video" src="assets/video-capa.mp4"></video>
-			<div class="capa-conteudo">
-				<h1 class="capa-moldura">
-					<img src="assets/eraserhead.jpg" alt="Eraserhead" class="capa-imagem"/>
-				</h1>
-			</div>
-			<div class="capa-barra">
-				<div class="capa-barra-conteudo">
-					<div class="capa-lancamento">
-						<p class="capa-rotulo">LANÇAMENTO</p>
-						<p class="capa-data">28/09/1977 (USA)</p>
-			</div>	
-        <a href="#" class="botao botao-primario">CONFIRA</a>
-					<div class="capa-plataformas">
-						<p class="capa-rotulo">DISPONÍVEL EM</p>
-						<div class="lista-plataformas">
-						<a href="https://mubi.com/pt/br/films/eraserhead"class="texto-plataforma" target="_blank" rel="noopener noreferrer">MUBI</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="capa-seta">
-				<img src="assets/seta-baixo.png" alt="seta para fazer a rolagem da página" width="24" height="24" />
-			</div>
-		</header>
-		<main>
-			<section class="secao-historia">
-				<div class="conteudo-central">
-					<h2 class="historia-titulo">Eraserhead</h2>
-					<div class="historia-texto">
-						<p>Criado por David Lynch, o filme "Eraserhead" (USA, 1977) acompanha Henry, um homem solitário que vive em uma cidade industrial e descobre que sua antiga namorada, Mary, deu à luz uma  estranha criatura. Após se casar com ela, passa a enfrentar a responsabilidade de cuidar do bebê, enquanto sua realidade cotidiana se mescla cada vez mais com pesadelos, situações absurdas e imagens grotescas.</p>
-						<br>
-						<p>Com uma atmosfera claustrofóbica, fotografia em preto e branco e intenso desenho sonoro, Lynch constrói uma experiência que aborda temas como paternidade, medo, isolamento, sexualidade e ansiedade. Mais do que contar uma história convencional, esta obra explora o surrealismo a fim de representar os conflitos e as angústias internas de seu protagonista.</p>
-					</div>
-				</div>
-			</section>
-			<section class="secao-video">
-				<div class="conteudo-central">
-					<article>
-						<div class="card-video-container">
-							<p class="rotulo"></p>
-							<h2 class="card-video-titulo">Trailer</h2>
-							<p class="card-video-descricao">Considerado um dos melhores longas-metragens independentes de todos os tempos, esta estreia de David Lynch é uma obra de sagacidade imagética e ouvido absoluto.</p>
-							<a href="https://www.youtube.com/watch?v=J0Eq5GtCYdA"class="botao botao-primario card-video-botao">
-								<img src="assets/icone-play.png" alt="Reproduzir vídeo"/>VER AGORA</a>
-						</div>
-					</article>
-				</div>
-			</section>
-		</main>
-		<footer class="rodape">
-			<div class="conteudo-central rodape-conteudo">
-				<div class="rodape-logo"></div>
-				<nav class="rodape-links">
-					<a href="#">Corporativo</a>
-					<a href="#">Privacidade</a>
-					<a href="#">Configurações de cookies</a>
-					<a href="#">Política de cookies</a>
-					<a href="#">Jurídico</a>
-				</nav>
-				<p class="rodape-classificacao">ATENÇÃO: contém atos criminosos, drogas lícitas, linguagem imprópria, temas sensíveis, violência.</p>
-			</div>
-		</footer>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-		<script src="/js/script.js"></script>
-	</body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ERASERHEAD</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav class="menu" id="menu">
+        <div class="menu-conteudo"></div>
+    </nav>
+
+    <header class="capa">
+        <div class="capa-painel">
+            <video muted playsinline preload="auto" class="capa-video" src="assets/video-capa.mp4"></video>
+
+            <div class="capa-conteudo">
+                <h1 class="capa-moldura">
+                    <img src="assets/eraserhead.jpg" alt="Capa do filme 'Eraserhead'" class="capa-imagem"/>
+                </h1>
+            </div>
+
+            <div class="capa-barra">
+                <div class="capa-barra-conteudo">
+                    <div class="capa-lancamento">
+                        <p class="capa-rotulo">Lançamento</p>
+                        <p class="capa-data">28/09/1977 (EUA)</p>
+                    </div>
+
+                    <div class="capa-plataformas">
+                        <p class="capa-rotulo">DISPONÍVEL EM</p>
+
+                        <div class="lista-plataformas">
+
+                            <a href="https://mubi.com/pt/br/films/eraserhead"class="texto-plataforma" target="_blank" rel="noopener noreferrer">MUBI</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="capa-seta">
+                <img src="assets/seta-baixo.png" alt="Seta para fazer a rolagem da página" width="24" height="24"/>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="secao-historia">
+            <div class="conteudo-central aparecer">
+                <h2 class="historia-titulo"> ERASERHEAD</h2>
+                <div class="historia-texto">
+                    <p>Criado por David Lynch, o filme "Eraserhead" (USA, 1977) acompanha Henry, um homem solitário que vive em uma cidade industrial e descobre que sua antiga namorada, Mary, deu à luz uma  estranha criatura. Após se casar com ela, passa a enfrentar a responsabilidade de cuidar do bebê, enquanto sua realidade cotidiana se mescla cada vez mais com pesadelos, situações absurdas e imagens grotescas.</p>
+					<br>
+					<p>Com uma atmosfera claustrofóbica, fotografia em preto e branco e intenso desenho sonoro, Lynch constrói uma experiência que aborda temas como paternidade, medo, isolamento, sexualidade e ansiedade. Mais do que contar uma história convencional, esta obra explora o surrealismo a fim de representar os conflitos e as angústias internas de seu protagonista.<p>
+                </div>
+            </div>
+        </section>
+
+        <section class="secao-video">
+            <div class="conteudo-central aparecer">
+                <article>
+                    <div class="card-video-container">
+                        <h2 class="card-video-titulo">TRAILER</h2>
+                        <p class="card-video-descricao">Considerado um dos melhores longas-metragens independentes de todos os tempos, esta estreia de David Lynch é uma obra de sagacidade imagética e ouvido absoluto.</p>
+
+                        <a href="https://www.youtube.com/watch?v=J0Eq5GtCYdA" class="botao botao-primario card-video-botao" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/icone-play.png" alt="Reproduzir vídeo"/>VER AGORA</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="rodape">
+        <div class="conteudo-central rodape-conteudo">
+
+            <nav class="rodape-links">
+                <a href="#">Corporativo</a>
+                <a href="#">Privacidade</a>
+                <a href="#">Configurações de cookies</a>
+                <a href="#">Política de cookies</a>
+                <a href="#">Jurídico</a>
+            </nav>
+
+            <p class="rodape-classificacao">ATENÇÃO: contém atos criminosos, drogas lícitas, linguagem imprópria, temas sensíveis, violência.</p>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script src="js/script.js"></script>
+</body>
+
 </html>
